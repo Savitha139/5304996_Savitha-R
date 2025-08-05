@@ -1,0 +1,17 @@
+Flipping Bits
+
+#include <stdio.h>
+long flippingBits(long n) {
+    return ~n & 0xFFFFFFFF;
+}
+
+int main() {
+    int a;
+    scanf("%d", &a);  
+    for (int i = 0; i < a; i++) {
+        long n;
+        scanf("%ld", &n);
+        printf("%lu\n", flippingBits(n));
+    }
+    return 0;
+}

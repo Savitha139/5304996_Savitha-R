@@ -1,0 +1,23 @@
+Time Conversion
+
+#include <stdio.h>
+char* timeConversion(char* s) {
+     static char r[9];
+     int h;
+     h = (s[0] - '0')*10 + (s[1] - '0');
+     if(s[8] == 'A' && h == 12){
+        h = 0;
+     }
+     else if(s[8] == 'P' && h != 12){
+        h +=12;
+     }
+     sprintf(r,"%02d:%c%c:%c%c", h, s[3], s[4], s[6], s[7]);
+     return r;
+}
+int main() {
+    char s[11];  
+    scanf("%s", s);  
+    char* k = timeConversion(s);
+    printf("%s\n", k);
+    return 0;
+}  

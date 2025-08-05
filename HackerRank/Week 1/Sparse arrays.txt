@@ -1,0 +1,49 @@
+Sparse arrays
+
+#include <stdio.h>
+#include <stdlib.h>
+int* matchingStrings(int strings_count, char** strings, int queries_count, char** queries, int* result_count) {
+      *result_count = queries_count;
+      int* r = malloc(sizeof(int)*queries_count);
+      for(int i=0; i<queries_count; i++){
+        int c = 0;
+        for(int j=0; j<strings_count; j++){
+            if(strcmp(queries[i], strings[j]) == 0){
+                c++;
+            }
+        }
+        r[i]=c;
+      }
+    return r;
+}
+int main() {
+    int n;
+    scanf("%d", &n);  
+    char** strings = malloc(n * sizeof(char*));
+    for (int i = 0; i < n; i++) {
+        strings[i] = malloc(101 * sizeof(char));  
+        scanf("%s", strings[i]);
+    }
+    int q;
+    scanf("%d", &q); 
+    char** queries = malloc(q * sizeof(char*));
+    for (int i = 0; i < q; i++) {
+        queries[i] = malloc(101 * sizeof(char));
+        scanf("%s", queries[i]);
+    }
+    int result_count;
+    int* results = matchingStrings(n, strings, q, queries, &result_count);
+    for (int i = 0; i < result_count; i++) {
+        printf("%d\n", results[i]);
+    }
+    for (int i = 0; i < n; i++) {
+        free(strings[i]);
+    }
+    free(strings);
+    for (int i = 0; i < q; i++) {
+        free(queries[i]);
+    }
+    free(queries);
+    free(results);
+    return 0;
+}
