@@ -1,0 +1,24 @@
+Counting Sort 1
+
+#include <stdio.h>
+#include <stdlib.h>
+int* countingSort(int arr_count, int* arr, int* result_count) {
+    int* f = (int*)calloc(100, sizeof(int));
+    for(int i=0; i<arr_count; i++){
+        f[arr[i]]++;
+    } 
+    *result_count = 100;
+    return f;
+}
+int main() {
+    int a[] = {1, 1, 3, 2, 1};
+    int n = sizeof(a) / sizeof(a[0]);
+    int rc;
+    int* r = countingSort(n, a, &rc);
+    
+    for (int i = 0; i < rc; i++) {
+        printf("%d ", r[i]);
+    }
+    free(r);
+    return 0;
+}

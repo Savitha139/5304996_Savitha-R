@@ -1,0 +1,31 @@
+Pangrams
+
+#include <stdio.h>
+#include <ctype.h> 
+#include <stdlib.h>
+char* pangrams(char* s) {
+     int l[26] = {0};
+     int c = 0;
+     for(int i=0; s[i]!= '\0'; i++){
+        if(isalpha(s[i])){
+            char low = tolower(s[i]);
+            int k = low - 'a';
+            if(l[k] == 0){
+                l[k] = 1;
+                c++;
+            }
+        }
+     }
+     if(c == 26){
+        return "pangram";
+     }
+     else{
+        return "not pangram";
+     }
+}
+int main() {
+    char s[] = "We promptly judged antique ivory buckles for the next prize";
+    printf("%s\n", pangrams(s));  
+    return 0;
+}
+
