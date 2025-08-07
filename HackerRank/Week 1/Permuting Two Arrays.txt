@@ -1,0 +1,29 @@
+Permuting Two Arrays
+
+#include <stdio.h>
+#include <stdlib.h>
+int asc(const void* a, const void* b){
+    return (*(int*)a - *(int*)b);
+}
+
+
+int des(const void* a, const void* b){
+    return (*(int*)b - *(int*)a);
+}
+ 
+char* twoArrays(int k, int A_count, int* A, int B_count, int* B) {
+      qsort(A, A_count, sizeof(int), asc);
+      qsort(B, B_count, sizeof(int), des);
+      for(int i=0; i<A_count; i++){
+        if(A[i]+B[i]<k){
+            return "NO";
+        }
+      }
+      return "YES";
+}
+int main() {
+    int A1[] = {2, 1, 3};
+    int B1[] = {7, 8, 9};
+    printf("%s\n", twoArrays(10, 3, A1, 3, B1));  // Output: YES
+    return 0;
+}
