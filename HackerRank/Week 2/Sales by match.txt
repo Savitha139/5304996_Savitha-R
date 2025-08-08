@@ -1,0 +1,21 @@
+Sales by match
+
+#include <stdio.h>
+int sockMerchant(int n, int ar_count, int* ar) {
+    int c[101] = {0};
+    int p = 0;
+    for(int i=0; i<ar_count; i++){
+        c[ar[i]]++;
+    }
+    for(int i=0; i<=100; i++){
+        p += c[i]/2;
+    }
+    return p;
+}
+int main() {
+    int n = 9;
+    int a[] = {10, 20, 20, 10, 10, 30, 50, 10, 20};
+    int r = sockMerchant(n, n, a);
+    printf("%d\n", r);  
+    return 0;
+}
