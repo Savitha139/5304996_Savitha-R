@@ -1,0 +1,42 @@
+Grid Challenge
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int cmp(const void* a, const void* b){
+    return(*(char*)a - *(char*)b);
+} 
+ 
+char* gridChallenge(int grid_count, char** grid) {
+     for(int i=0; i<grid_count; i++){
+        qsort(grid[i], grid_count, sizeof(char), cmp);
+     }
+     for(int c=0; c<grid_count; c++){
+        for(int r=0; r<grid_count-1; r++){
+            if(grid[r][c]>grid[r+1][c]){
+                char* rt = (char*) malloc(3*sizeof(char));
+                strcpy(rt, "NO");
+                return rt;
+            }
+        }
+     }
+     char* rt = (char*) malloc(4*sizeof(char));
+     strcpy(rt, "YES");
+     return rt;
+}
+
+int main() {
+    int n = 5;
+    char* a[] = {
+        "ebacd",
+        "fghij",
+        "olmkn",
+        "trpqs",
+        "xywuv"
+    };
+    char* r = gridChallenge(n, a);
+    printf("%s\n", r);
+    free(r); 
+    return 0;
+}

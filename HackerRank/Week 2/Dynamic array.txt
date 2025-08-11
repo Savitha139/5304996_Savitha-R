@@ -1,0 +1,67 @@
+Dynamic array
+
+#include <stdio.h>
+#include <stdlib.h>
+int* dynamicArray(int n, int queries_rows, int queries_columns, int** queries, int* result_count) {
+    int lt = 0;
+    int** a = malloc(n * sizeof(int*));
+    int* s = calloc(n, sizeof(int));
+    int* cp = malloc(n * sizeof(int));
+
+    for (int i = 0; i < n; i++) {
+        cp[i] = 10;
+        a[i] = malloc(cp[i] * sizeof(int));
+        s[i] = 0;
+    }
+    int* rt = malloc(queries_rows * sizeof(int));
+    int res = 0;
+
+    for (int i = 0; i < queries_rows; i++) {
+        int t = queries[i][0];
+        int x = queries[i][1];
+        int y = queries[i][2];
+
+        int q = (x ^ lt) % n;
+
+        if (t == 1) {
+            if (s[q] == cp[q]) {
+                cp[q] *= 2;
+                a[q] = realloc(a[q], cp[q] * sizeof(int));
+            }
+            a[q][s[q]++] = y;
+        }
+        else if (t == 2) {
+            int pos = y % s[q];
+            lt = a[q][pos];
+            rt[res++] = lt;
+        }
+    }
+    for (int i = 0; i < n; i++) free(a[i]);
+    free(a);
+    free(s);
+    free(cp);
+    *result_count = res;
+    return rt;
+}
+int main() {
+    int n = 2, q = 5;
+    int a[5][3] = {
+        {1, 0, 5},
+        {1, 1, 7},
+        {1, 0, 3},
+        {2, 1, 0},
+        {2, 1, 1}
+    };
+    int* ptr[5];
+    for(int i=0; i<5; i++) ptr[i] = a[i];
+    
+    int r;
+    int* rt = dynamicArray(n, q, 3, ptr, &r);
+    
+    for (int i = 0; i < r; i++) {
+        printf("%d\n", rt[i]);
+    }
+    free(rt);
+    return 0;
+}
+

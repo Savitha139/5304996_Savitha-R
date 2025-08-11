@@ -1,0 +1,59 @@
+Prime Dates
+
+#include <stdio.h>
+
+int leap(int y) {
+    return (y % 400 == 0) || (y % 4 == 0 && y % 100 != 0);
+}
+
+int day(int m, int y) {
+    int d[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+    if (m == 2 && leap(y)) return 29;
+    return d[m - 1];
+}
+
+void nextDate(int *d, int *m, int *y) {
+    (*d)++;
+    if (*d > day(*m, *y)) {
+        *d = 1;
+        (*m)++;
+        if (*m > 12) {
+            *m = 1;
+            (*y)++;
+        }
+    }
+}
+
+int less(int d1, int m1, int y1, int d2, int m2, int y2) {
+    if (y1 < y2) return 1;
+    if (y1 > y2) return 0;
+    if (m1 < m2) return 1;
+    if (m1 > m2) return 0;
+    return d1 <= d2;
+}
+
+int condate(int d, int m, int y) {
+    char s[20];
+    sprintf(s, "%d%d%d", d, m, y);
+    return atoi(s);
+}
+
+int main() {
+    char st[11], ed[11];
+    scanf("%s %s", st, ed);
+
+    int d1, m1, y1, d2, m2, y2;
+    sscanf(st, "%2d-%2d-%4d", &d1, &m1, &y1);
+    sscanf(ed, "%2d-%2d-%4d", &d2, &m2, &y2);
+
+    int c = 0;
+    while (less(d1, m1, y1, d2, m2, y2)) {
+        int a = condate(d1, m1, y1);
+        if (a % 4 == 0 || a % 7 == 0)
+            c++;
+        nextDate(&d1, &m1, &y1);
+    }
+
+    printf("%d\n", c);
+    return 0;
+}
