@@ -1,0 +1,36 @@
+Counter game
+
+#include <stdio.h>
+#include <stdlib.h>
+int power(unsigned long long n) {
+    return (n != 0) && ((n & (n - 1)) == 0);
+}
+unsigned long long largpower(unsigned long long n) {
+    unsigned long long p = 1;
+    while (p << 1ULL < n) {
+        p <<= 1ULL;
+    }
+    return p;
+}
+char* counterGame(long n) {
+    int t = 0; 
+    while (n != 1) {
+        if (power(n)) {
+            n >>= 1; 
+        } else {
+            n -= largpower(n);
+        }
+        t++;
+    }
+    return (t % 2 == 1) ? "Louise" : "Richard";
+}
+int main() {
+    int t;
+    scanf("%d", &t);
+    while (t--) {
+        unsigned long long n;
+        scanf("%llu", &n);
+        printf("%s\n", counterGame(n));
+    }
+    return 0;
+}
