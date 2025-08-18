@@ -1,0 +1,48 @@
+Sherlock and valid string 
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+char* isValid(char* s) {
+    int f[26] ={0};
+    int l = strlen(s);
+    for(int i=0; i<l; i++){
+        f[s[i] - 'a']++;
+    }
+    int mn = 1e9, mx=0;
+    for(int i=0; i<26; i++){
+        if(f[i]>0){
+            if(f[i]<mn){
+                mn = f[i];
+            }
+            if(f[i]>mx){
+                mx = f[i];
+            }
+        }
+    }
+    int mncnt = 0 , mxcnt = 0;
+    for(int i=0; i<26; i++){
+        if(f[i]==mn){
+            mncnt++;
+        }
+        if(f[i]==mx){
+            mxcnt++;
+        }
+    }
+    if(mn==mx){
+        return "YES";
+    }
+    if(mn == 1 && mncnt == 1 && mx*mxcnt + mn*mncnt ==l){
+        return "YES";
+    }
+    if(mx - mn == 1 && mxcnt == 1){
+        return "YES";
+    }
+    return "NO";
+}
+int main() {
+    char s[1000];
+    scanf("%s", s);
+    printf("%s\n", isValid(s));
+    return 0;
+}

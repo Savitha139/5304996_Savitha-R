@@ -1,0 +1,59 @@
+Bomberman game
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+char** detonate(char** src, int r, int c) {
+    char** newg = malloc(r * sizeof(char*));
+    for (int i = 0; i < r; i++) {
+        newg[i] = malloc(c + 1);
+        memset(newg[i], 'O', c);
+        newg[i][c] = '\0';
+    }
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            if (src[i][j] == 'O') {
+                newg[i][j] = '.';
+                if (i > 0) newg[i-1][j] = '.';
+                if (i < r-1) newg[i+1][j] = '.';
+                if (j > 0) newg[i][j-1] = '.';
+                if (j < c-1) newg[i][j+1] = '.';
+            }
+        }
+    }
+    return newg;
+}
+
+char** bomberMan(int n, int r, char** grid, int* result_count) {
+    *result_count = r;
+    int c = strlen(grid[0]);
+    if (n == 1) return grid;
+    if (n % 2 == 0) {
+        char** full = malloc(r * sizeof(char*));
+        for (int i = 0; i < r; i++) {
+            full[i] = malloc(c + 1);
+            memset(full[i], 'O', c);
+            full[i][c] = '\0';
+        }
+        return full;
+    }
+    char** first = detonate(grid, r, c);
+    if (n % 4 == 3) return first;
+    return detonate(first, r, c);
+}
+int main() {
+    int r, c, n;
+    scanf("%d %d %d", &r, &c, &n);
+    char** g = malloc(r * sizeof(char*));
+    for (int i = 0; i < r; i++) {
+        g[i] = malloc(c + 1);
+        scanf("%s", g[i]);
+    }
+    int rt;
+    char** ret = bomberMan(n, r, g, &rt);
+    for (int i = 0; i < rt; i++) {
+        printf("%s\n", ret[i]);
+    }
+    return 0;
+}
