@@ -1,0 +1,62 @@
+Reverse a linked list
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct SinglyLinkedListNode {
+    int data;
+    struct SinglyLinkedListNode* next;
+} SinglyLinkedListNode;
+
+SinglyLinkedListNode* createNode(int data) {
+    SinglyLinkedListNode* node = (SinglyLinkedListNode*)malloc(sizeof(SinglyLinkedListNode));
+    node->data = data;
+    node->next = NULL;
+    return node;
+}
+
+SinglyLinkedListNode* reverse(SinglyLinkedListNode* llist) {
+    SinglyLinkedListNode* prev = NULL;
+    SinglyLinkedListNode* curr = llist;
+    SinglyLinkedListNode* next = NULL;
+    while (curr != NULL) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    return prev;
+}
+
+void printList(SinglyLinkedListNode* head) {
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    int t;
+    scanf("%d", &t);
+    while (t--) {
+        int n;
+        scanf("%d", &n);
+        SinglyLinkedListNode* head = NULL;
+        SinglyLinkedListNode* tail = NULL;
+        for (int i = 0; i < n; i++) {
+            int val;
+            scanf("%d", &val);
+            SinglyLinkedListNode* node = createNode(val);
+            if (head == NULL) {
+                head = tail = node;
+            } else {
+                tail->next = node;
+                tail = node;
+            }
+        }
+        head = reverse(head);
+        printList(head);
+    }
+    return 0;
+}
