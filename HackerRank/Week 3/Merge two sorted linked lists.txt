@@ -1,0 +1,83 @@
+Merge two sorted linked lists
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct SinglyLinkedListNode {
+    int data;
+    struct SinglyLinkedListNode* next;
+} SinglyLinkedListNode;
+
+SinglyLinkedListNode* createNode(int data) {
+    SinglyLinkedListNode* node = (SinglyLinkedListNode*)malloc(sizeof(SinglyLinkedListNode));
+    node->data = data;
+    node->next = NULL;
+    return node;
+}
+
+SinglyLinkedListNode* mergeLists(SinglyLinkedListNode* head1, SinglyLinkedListNode* head2) {
+    if (head1 == NULL) return head2;
+    if (head2 == NULL) return head1;
+    SinglyLinkedListNode dummy;
+    SinglyLinkedListNode* tail = &dummy;
+    dummy.next = NULL;
+    while (head1 != NULL && head2 != NULL) {
+        if (head1->data <= head2->data) {
+            tail->next = head1;
+            head1 = head1->next;
+        } else {
+            tail->next = head2;
+            head2 = head2->next;
+        }
+        tail = tail->next;
+    }
+    if (head1 != NULL) tail->next = head1;
+    if (head2 != NULL) tail->next = head2;
+    return dummy.next;
+}
+
+void printList(SinglyLinkedListNode* head) {
+    while (head != NULL) {
+        printf("%d ", head->data);
+        head = head->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    int t;
+    scanf("%d", &t);
+    while (t--) {
+        int n1;
+        scanf("%d", &n1);
+        SinglyLinkedListNode* head1 = NULL;
+        SinglyLinkedListNode* tail1 = NULL;
+        for (int i = 0; i < n1; i++) {
+            int val;
+            scanf("%d", &val);
+            SinglyLinkedListNode* node = createNode(val);
+            if (head1 == NULL) head1 = tail1 = node;
+            else {
+                tail1->next = node;
+                tail1 = node;
+            }
+        }
+        int n2;
+        scanf("%d", &n2);
+        SinglyLinkedListNode* head2 = NULL;
+        SinglyLinkedListNode* tail2 = NULL;
+        for (int i = 0; i < n2; i++) {
+            int val;
+            scanf("%d", &val);
+            SinglyLinkedListNode* node = createNode(val);
+            if (head2 == NULL) head2 = tail2 = node;
+            else {
+                tail2->next = node;
+                tail2 = node;
+            }
+        }
+        SinglyLinkedListNode* merged = mergeLists(head1, head2);
+        printList(merged);
+    }
+    return 0;
+}
