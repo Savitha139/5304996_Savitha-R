@@ -1,0 +1,76 @@
+Waiter
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+bool isPrime(int n) {
+    if (n < 2) return false;
+    if (n % 2 == 0 && n != 2) return false;
+    for (int i = 3; i * i <= n; i += 2) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+void generatePrimes(int *primes, int q) {
+    int count = 0, num = 2;
+    while (count < q) {
+        if (isPrime(num)) primes[count++] = num;
+        num++;
+    }
+}
+
+int* waiter(int number_count, int* number, int q, int* result_count) {
+    int *primes = malloc(q * sizeof(int));
+    generatePrimes(primes, q);
+
+    int *A = malloc(number_count * sizeof(int));
+    for (int i = 0; i < number_count; i++) A[i] = number[i];
+
+    int A_size = number_count;
+    int *result = malloc(number_count * sizeof(int));
+    int res_idx = 0;
+
+    for (int i = 0; i < q; i++) {
+        int prime = primes[i];
+        int *A_next = malloc(A_size * sizeof(int));
+        int *B = malloc(A_size * sizeof(int));
+        int A_next_size = 0, B_size = 0;
+
+        for (int j = A_size - 1; j >= 0; j--) {
+            if (A[j] % prime == 0) B[B_size++] = A[j];
+            else A_next[A_next_size++] = A[j];
+        }
+        for (int j = B_size - 1; j >= 0; j--) result[res_idx++] = B[j];
+
+        free(A);
+        free(B);
+        A = A_next;
+        A_size = A_next_size;
+    }
+    for (int j = A_size - 1; j >= 0; j--) result[res_idx++] = A[j];
+
+    free(A);
+    free(primes);
+
+    *result_count = res_idx;
+    return result;
+}
+
+int main() {
+    int n, q;
+    scanf("%d %d", &n, &q);
+    int *numbers = malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) scanf("%d", &numbers[i]);
+
+    int result_count;
+    int *ans = waiter(n, numbers, q, &result_count);
+
+    for (int i = 0; i < result_count; i++) {
+        printf("%d\n", ans[i]);
+    }
+    free(numbers);
+    free(ans);
+    return 0;
+}
